@@ -4,7 +4,7 @@
 <div align="center">
 <a href="#faq"><img alt="Static Badge" src="https://img.shields.io/badge/F.-A.Q-red"></a>
 <a href="#releases"><img alt="Static Badge" src="https://img.shields.io/badge/Releases-green"></a>
-<a href="#user-guides"><img alt="Static Badge" src="https://img.shields.io/badge/User-Guide-blue"></a>
+<a href="#user-guide"><img alt="Static Badge" src="https://img.shields.io/badge/User-Guide-blue"></a>
 
 </div>
 <p> </p>
