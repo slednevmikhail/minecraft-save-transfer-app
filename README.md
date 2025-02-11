@@ -2,8 +2,9 @@
 <ins> </ins>
 ### <p align="center">A save file manager for Minecraft.
 <div align="center">
-[<img alt="Static Badge" src="https://img.shields.io/badge/Releases-red?link=%23user-guide">](#faq)
-<img alt="Static Badge" src="https://img.shields.io/badge/Releases-red?link=%23user-guide">
+<a href="#faq"><img alt="Static Badge" src="https://img.shields.io/badge/F.-A.Q-red"></a>
+<a href="#user-guide"><img alt="Static Badge" src="https://img.shields.io/badge/Releases-red"></a>
+<a href="#releases"><img alt="Static Badge" src="https://img.shields.io/badge/User-Guide-green"></a>
 
 </div>
 <p> </p>
