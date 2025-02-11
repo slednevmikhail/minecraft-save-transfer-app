@@ -2,8 +2,9 @@
 <ins> </ins>
 ### <p align="center">A save file manager for Minecraft.
 <div align="center">
-<img alt="Static Badge" src="https://img.shields.io/badge/Releases-red?link=#user-guide">
-<img alt="Static Badge" src="https://img.shields.io/badge/User-Guide-blue?link=#user-guide">
+<img alt="Static Badge" src="https://img.shields.io/badge/Releases-red?link=%23user-guide">
+<img alt="Static Badge" src="https://img.shields.io/badge/Releases-red?link=%23user-guide">
+
 </div>
 <p> </p>
 <p align="center">Mst-gui lets you easily transfer your player items, exp, and all other stats between single- and multiplayer save files in a few clicks.</p>
