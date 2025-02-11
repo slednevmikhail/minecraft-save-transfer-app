@@ -2,6 +2,7 @@ package org.mst.SaveManager;
 
 import org.jnbt.CompoundTag;
 import org.jnbt.IntArrayTag;
+import org.jnbt.ListTag;
 import org.mst.SaveManager.Utils.NBTTree;
 
 import java.io.IOException;
@@ -18,8 +19,14 @@ public class WorldManager extends SaveManager {
     }
 
     @Override
-    public void setPlayerFrom(SaveManager sm){
-        NBTTree playerData = sm.getData();
+    public void setPlayerFrom(SaveManager other){
+        NBTTree otherPlayerData = other.getPlayerData();
+        NBTTree thisPlayerData = getPlayerData();
+        PlayerManager otherPlayerManager = new PlayerManager(otherPlayerData); 
+        PlayerManager thisPlayerManager = new PlayerManager(thisPlayerData);
+        thisPlayerManager.setPlayerFrom(otherPlayerManager);
+
+        NBTTree playerData = thisPlayerManager.getPlayerData();
         playerData.renameRoot("Player");
         data.replaceTagData(new String[]{"Data", "Player"}, playerData.getRoot());
     }
@@ -27,9 +34,12 @@ public class WorldManager extends SaveManager {
     @Override
     public NBTTree getPlayerData(){
         CompoundTag playerDataRoot = (CompoundTag) data.findTag(new String[]{"Data", "Player"});
-        NBTTree playerData = new NBTTree(playerDataRoot);
-        playerData.renameRoot("");
-        return playerData;
+        return new NBTTree(playerDataRoot);
+    }
+
+    @Override
+    public ListTag getPlayerPos(){
+        return (ListTag) data.findTag(new String[]{"Data", "Player", "Pos"});
     }
 
 }

@@ -100,12 +100,10 @@ public abstract class Tag {
 	
 		if (this == obj) { return true; }
 		if (obj == null) { return false; }
-		if (!(obj instanceof Tag)) { return false; }
-		final Tag other = (Tag) obj;
-		if (name == null) {
-			if (other.name != null) { return false; }
-		} else if (!name.equals(other.name)) { return false; }
-		return true;
-	}
+		if (!(obj instanceof Tag other)) { return false; }
+        if (name == null) {
+            return other.name == null;
+		} else return name.equals(other.name);
+    }
 	
 }

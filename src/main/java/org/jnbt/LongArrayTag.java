@@ -67,13 +67,9 @@ public class LongArrayTag extends Tag {
 		if (!super.equals(obj)) {
 			return false;
 		}
-		if (!(obj instanceof LongArrayTag)) {
+		if (!(obj instanceof LongArrayTag other)) {
 			return false;
 		}
-		final LongArrayTag other = (LongArrayTag) obj;
-		if (!Arrays.equals(value, other.value)) {
-			return false;
-		}
-		return true;
-	}
+        return Arrays.equals(value, other.value);
+    }
 }

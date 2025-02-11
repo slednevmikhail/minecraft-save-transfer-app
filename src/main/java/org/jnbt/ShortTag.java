@@ -103,10 +103,8 @@ public final class ShortTag extends Tag {
 	
 		if (this == obj) { return true; }
 		if (!super.equals(obj)) { return false; }
-		if (!(obj instanceof ShortTag)) { return false; }
-		final ShortTag other = (ShortTag) obj;
-		if (value != other.value) { return false; }
-		return true;
-	}
+		if (!(obj instanceof ShortTag other)) { return false; }
+        return value == other.value;
+    }
 	
 }

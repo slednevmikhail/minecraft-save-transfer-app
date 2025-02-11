@@ -36,3 +36,21 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+
+### Strange Files:) ###
+--main-class
+--main-jar
+--name
+--type
+-main-class
+-main-jar
+-n
+-name
+-type
+
+MST.zip
+Output
+MST
+.idea
+.mvn

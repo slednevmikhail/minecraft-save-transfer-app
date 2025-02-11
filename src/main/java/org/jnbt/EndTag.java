@@ -93,12 +93,10 @@ public final class EndTag extends Tag {
 	
 		if (this == obj) { return true; }
 		if (!super.equals(obj)) { return false; }
-		if (!(obj instanceof EndTag)) { return false; }
-		final EndTag other = (EndTag) obj;
-		if (value == null) {
-			if (other.value != null) { return false; }
-		} else if (!value.equals(other.value)) { return false; }
-		return true;
-	}
+		if (!(obj instanceof EndTag other)) { return false; }
+        if (value == null) {
+            return other.value == null;
+		} else return value.equals(other.value);
+    }
 	
 }

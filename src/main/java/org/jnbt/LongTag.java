@@ -103,10 +103,8 @@ public final class LongTag extends Tag {
 	
 		if (this == obj) { return true; }
 		if (!super.equals(obj)) { return false; }
-		if (!(obj instanceof LongTag)) { return false; }
-		final LongTag other = (LongTag) obj;
-		if (value != other.value) { return false; }
-		return true;
-	}
+		if (!(obj instanceof LongTag other)) { return false; }
+        return value == other.value;
+    }
 	
 }

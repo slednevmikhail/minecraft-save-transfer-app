@@ -2,13 +2,20 @@ package org.mstapp.mstgui.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import org.mst.SaveTransfer;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Objects;
 
 public class MainController {
@@ -20,12 +27,11 @@ public class MainController {
     public Label mainIdText;
     public Pane mainPane;
     public ToggleGroup targetTypeBox;
-
     public ProgressBar transferProgress;
-    public String OutputPath=System.getProperty("user.dir");
 
     public Button chooseTargetFile;
     public Label TargetIdText;
+
 
     public TextField mainPathField;
     public TextField savePathField;
@@ -33,11 +39,17 @@ public class MainController {
 
     public Button showFolderButton;
     public Button transferButton;
+    public RadioButton type_target_player;
+    public RadioButton type_target_world;
+    public RadioButton type_main_player;
+    public RadioButton type_main_world;
+
     // --------[ File View UI ] ---------------------------------------
     private File chooseFile(String title, SaveFormController saveController){
         FileChooser mainFileChooser = new FileChooser();
-        if (saveController.getFilePath() != null) {
-            mainFileChooser.setInitialDirectory(new File(saveController.getFilePath()));
+        String filePath = saveController.getFilePath();
+        if (filePath != null) {
+            mainFileChooser.setInitialDirectory(getInitialDir(filePath));
         }
         else {
             mainFileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
@@ -47,6 +59,13 @@ public class MainController {
                 new FileChooser.ExtensionFilter("Dat files", "*.dat")
         );
         return mainFileChooser.showOpenDialog(null);
+    }
+
+    private File getInitialDir(String filePath){
+        StringBuilder builder = new StringBuilder(filePath);
+        int lastIndex = builder.lastIndexOf("\\");
+        builder.delete(lastIndex + 1, builder.length());
+        return new File(builder.toString());
     }
 
     private File chooseFolder(String title, SaveFormController saveController){
@@ -64,10 +83,22 @@ public class MainController {
     // ----------------------------------------------------------------
 
     // ---------[ MAIN Control pane event holder ]---------------------
-    private SaveFormController MainSaveController = new SaveFormController(file_types.WORLD);
+    private final SaveFormController MainSaveController = new SaveFormController(file_types.WORLD);
 
     public void mainTypeSwitch(ActionEvent actionEvent) throws IOException {
         MainSaveController.switchType();
+        switch (MainSaveController.getFileType()){
+            case WORLD: {
+                type_main_player.setTextFill(Color.rgb(255, 210, 161));
+                type_main_world.setTextFill(Color.WHITE);
+                break;
+            }
+            case PLAYER: {
+                type_main_world.setTextFill(Color.rgb(255, 210, 161));
+                type_main_player.setTextFill(Color.WHITE);
+                break;
+            }
+        }
         System.out.println("{MainFile - " + MainSaveController.getFileType() + "}");
         UUIDUpdate(MainSaveController, mainIdText);
         controlTransferButton();
@@ -88,10 +119,22 @@ public class MainController {
     //-----------------------------------------------------------------
 
     //---------[ TARGET Control pane event holder ]--------------------
-    private SaveFormController TargetSaveController = new SaveFormController(file_types.PLAYER);
+    private final SaveFormController TargetSaveController = new SaveFormController(file_types.WORLD);
 
     public void targetTypeSwitch(ActionEvent actionEvent) throws IOException {
         TargetSaveController.switchType();
+        switch (TargetSaveController.getFileType()){
+            case WORLD: {
+                type_target_player.setTextFill(Color.rgb(255, 210, 161));
+                type_target_world.setTextFill(Color.WHITE);
+                break;
+            }
+            case PLAYER: {
+                type_target_world.setTextFill(Color.rgb(255, 210, 161));
+                type_target_player.setTextFill(Color.WHITE);
+                break;
+            }
+        }
         System.out.println("{TargetFile - " + TargetSaveController.getFileType() + "}");
         UUIDUpdate(TargetSaveController, TargetIdText);
         controlTransferButton();
@@ -114,8 +157,10 @@ public class MainController {
         SaveController.updateUUID();
         if (!Objects.isNull(SaveController.getUUID())) {
             label.setText("Player UUID: " + SaveController.getUUID());
+            label.setTextFill(Color.LIGHTGREEN);
         }
         else{
+            label.setTextFill(Color.RED);
             label.setText("ERROR!");
         }
     }
@@ -124,13 +169,6 @@ public class MainController {
 
     //-------------[Save Control pane]--------------------------------
     public void onEditSaveButtonClick(ActionEvent actionEvent) throws IOException {
-        File dest = chooseFolder("Choose output path", MainSaveController);
-        if (Objects.isNull(dest)){
-            return;
-        }
-        OutputPath = dest.getAbsolutePath();
-        savePathField.setText(OutputPath + "\\Output");
-        showFolderButton.setDisable(true);
     }
     //----------------------------------------------------------------
 
@@ -150,7 +188,10 @@ public class MainController {
             mainPane.setDisable(false);
             return;
         }
-        SaveTransfer.transfer(MainFilePath, TargetFilePath, OutputPath);
+        SaveTransfer.transfer
+                (MainFilePath, MainSaveController.getFileType(),
+                        TargetFilePath,TargetSaveController.getFileType(), savePathField.getText());
+
         moveProgressBar();
         moveProgressBar();
         moveProgressBar();
@@ -159,7 +200,7 @@ public class MainController {
     }
 
     private void controlTransferButton(){
-        transferButton.setDisable(MainSaveController.getUUID() == null || TargetSaveController.getUUID() == null);
+        transferButton.setDisable(MainSaveController.getUUID() == null);
     }
 
     private void moveProgressBar() throws InterruptedException {
@@ -167,13 +208,15 @@ public class MainController {
         transferProgress.setProgress(progress + 0.25);
     }
 
+    public void showOutputClick(ActionEvent actionEvent) throws IOException{
 
-    public void showFolderClick(ActionEvent actionEvent) throws IOException {
-        openInExplorer(OutputPath);
+        Desktop.getDesktop().open(new File(System.getProperty("user.dir") + File.separator + "Output"));
     }
-    private void openInExplorer(String path) throws IOException {
-        Runtime.getRuntime().exec("explorer.exe /select, " + path + File.separator + "Output");
+
+    public void OnGithubButtonClick(ActionEvent actionEvent) throws IOException, URISyntaxException {
+        Desktop.getDesktop().browse(new URI("https://github.com/slednevmikhail"));
     }
+
 
 
 }

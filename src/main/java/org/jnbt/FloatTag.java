@@ -103,10 +103,8 @@ public final class FloatTag extends Tag {
 	
 		if (this == obj) { return true; }
 		if (!super.equals(obj)) { return false; }
-		if (!(obj instanceof FloatTag)) { return false; }
-		final FloatTag other = (FloatTag) obj;
-		if (Float.floatToIntBits(value) != Float.floatToIntBits(other.value)) { return false; }
-		return true;
-	}
+		if (!(obj instanceof FloatTag other)) { return false; }
+        return Float.floatToIntBits(value) == Float.floatToIntBits(other.value);
+    }
 	
 }

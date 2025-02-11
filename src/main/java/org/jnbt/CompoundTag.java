@@ -115,13 +115,11 @@ public final class CompoundTag extends Tag {
 	
 		if (this == obj) { return true; }
 		if (!super.equals(obj)) { return false; }
-		if (!(obj instanceof CompoundTag)) { return false; }
-		final CompoundTag other = (CompoundTag) obj;
-		if (value == null) {
-			if (other.value != null) { return false; }
-		} else if (!value.equals(other.value)) { return false; }
-		return true;
-	}
+		if (!(obj instanceof CompoundTag other)) { return false; }
+        if (value == null) {
+            return other.value == null;
+		} else return value.equals(other.value);
+    }
 
 	public Tag getTagByPath(String[] path){
 		CompoundTag result = this;

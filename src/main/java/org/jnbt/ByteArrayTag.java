@@ -88,7 +88,7 @@ public final class ByteArrayTag extends Tag {
 		if ((name != null) && !name.equals("")) {
 			append = "(\"" + getName() + "\")";
 		}
-		return "TAG_Byte_Array" + append + ": " + hex.toString();
+		return "TAG_Byte_Array" + append + ": " + hex;
 	}
 	
 	/*
@@ -113,10 +113,8 @@ public final class ByteArrayTag extends Tag {
 	
 		if (this == obj) { return true; }
 		if (!super.equals(obj)) { return false; }
-		if (!(obj instanceof ByteArrayTag)) { return false; }
-		final ByteArrayTag other = (ByteArrayTag) obj;
-		if (!Arrays.equals(value, other.value)) { return false; }
-		return true;
-	}
+		if (!(obj instanceof ByteArrayTag other)) { return false; }
+        return Arrays.equals(value, other.value);
+    }
 	
 }

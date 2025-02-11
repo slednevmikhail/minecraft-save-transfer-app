@@ -103,12 +103,10 @@ public final class StringTag extends Tag {
 	
 		if (this == obj) { return true; }
 		if (!super.equals(obj)) { return false; }
-		if (!(obj instanceof StringTag)) { return false; }
-		final StringTag other = (StringTag) obj;
-		if (value == null) {
-			if (other.value != null) { return false; }
-		} else if (!value.equals(other.value)) { return false; }
-		return true;
-	}
+		if (!(obj instanceof StringTag other)) { return false; }
+        if (value == null) {
+            return other.value == null;
+		} else return value.equals(other.value);
+    }
 	
 }

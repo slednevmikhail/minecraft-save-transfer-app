@@ -1,6 +1,7 @@
 module org.mstapp.mstgui {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
 
     opens org.mstapp.mstgui to javafx.fxml;

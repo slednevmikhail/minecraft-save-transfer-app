@@ -103,10 +103,8 @@ public final class ByteTag extends Tag {
 	
 		if (this == obj) { return true; }
 		if (!super.equals(obj)) { return false; }
-		if (!(obj instanceof ByteTag)) { return false; }
-		final ByteTag other = (ByteTag) obj;
-		if (value != other.value) { return false; }
-		return true;
-	}
+		if (!(obj instanceof ByteTag other)) { return false; }
+        return value == other.value;
+    }
 	
 }

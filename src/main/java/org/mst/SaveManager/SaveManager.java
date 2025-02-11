@@ -1,6 +1,7 @@
 package org.mst.SaveManager;
 
 import org.jnbt.IntArrayTag;
+import org.jnbt.ListTag;
 import org.mst.SaveManager.Utils.NBTTree;
 
 import java.io.File;
@@ -14,6 +15,9 @@ public abstract class SaveManager {
         data = NBTTree.fromPath(file_path);
         this.file_path = file_path;
     }
+    public SaveManager(NBTTree root){
+        data = NBTTree.copyOf(root);
+    }
 
     public NBTTree getData(){
         return data;
@@ -25,6 +29,10 @@ public abstract class SaveManager {
 
 
     public void setPlayerFrom(SaveManager sm){
+    }
+
+    public ListTag getPlayerPos(){
+        return null;
     }
 
 

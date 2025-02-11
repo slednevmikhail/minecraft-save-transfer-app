@@ -103,10 +103,8 @@ public final class IntTag extends Tag {
 	
 		if (this == obj) { return true; }
 		if (!super.equals(obj)) { return false; }
-		if (!(obj instanceof IntTag)) { return false; }
-		final IntTag other = (IntTag) obj;
-		if (value != other.value) { return false; }
-		return true;
-	}
+		if (!(obj instanceof IntTag other)) { return false; }
+        return value == other.value;
+    }
 	
 }

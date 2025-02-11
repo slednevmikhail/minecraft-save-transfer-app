@@ -23,7 +23,7 @@ public class NBTController {
     }
 
 
-    public static void write(File file, CompoundTag tag) throws IOException {
+    private static void write(File file, CompoundTag tag) throws IOException {
         FileOutputStream os = new FileOutputStream(file);
         NBTOutputStream nbt_os = new NBTOutputStream(os);
         nbt_os.writeTag(tag);
@@ -35,23 +35,30 @@ public class NBTController {
         write(output_file, tag);
     }
 
-    public static void write(File file, NBTTree data) throws IOException {
+    private static void write(File file, NBTTree data) throws IOException {
         write(file, data.getRoot());
     }
 
-    public static void write(String file_path, NBTTree data) throws IOException {
+    private static void write(String file_path, NBTTree data) throws IOException {
         write(file_path, data.getRoot());
     }
 
-    public static String autosave(String filename, NBTTree data, String rootPath) throws IOException {
-        String path = generatePath(rootPath);
-        File output_file = createOutputFile(path, filename);
+    public static String backup(String filename, NBTTree data, String rootPath, String backupName) throws IOException {
+        String path = generatePath(rootPath, backupName);
+        File output_file = createBackupFile(path, filename);
+        write(output_file, data);
+        return output_file.getAbsolutePath();
+    }
+
+    public static String backup(String filename, NBTTree data, String rootPath, String backupName, String addFolder) throws IOException {
+        String path = generatePath(rootPath, backupName) + File.separator + addFolder;
+        File output_file = createBackupFile(path, filename);
         write(output_file, data);
         return output_file.getAbsolutePath();
     }
 
 
-    private static File createOutputFile(String path, String filename) throws IOException {
+    private static File createBackupFile(String path, String filename) throws IOException {
         boolean makeDirs = new File(path).mkdirs();
         String file_path = path + File.separator + filename;
         if (!makeDirs) {
@@ -71,11 +78,20 @@ public class NBTController {
         return new File(file_path);
     }
 
-    private static String generatePath(String rootPath){
+    private static String generatePath(String rootPath, String name){
         Instant now = Instant.now().truncatedTo(ChronoUnit.SECONDS);
         String dir_name = now.toString().replace(':', '_');
+        System.out.println(rootPath + "\\Output\\" + dir_name);
+        if (!name.isEmpty()){
+            return rootPath + "\\Output\\" + name + "_" + dir_name;
+        }
         return rootPath + "\\Output\\" + dir_name;
+
     }
 
+    public static String save(String file_path, NBTTree data) throws IOException {
+        write(file_path, data);
+        return file_path;
+    }
 
 }

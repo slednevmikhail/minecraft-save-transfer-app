@@ -84,7 +84,7 @@ public final class IntArrayTag extends Tag {
 		if ((name != null) && !name.equals("")) {
 			append = "(\"" + getName() + "\")";
 		}
-		return "TAG_Int_Array" + append + ": " + integers.toString();
+		return "TAG_Int_Array" + append + ": " + integers;
 	}
 	
 	/*
@@ -109,10 +109,8 @@ public final class IntArrayTag extends Tag {
 	
 		if (this == obj) { return true; }
 		if (!super.equals(obj)) { return false; }
-		if (!(obj instanceof IntArrayTag)) { return false; }
-		final IntArrayTag other = (IntArrayTag) obj;
-		if (!Arrays.equals(value, other.value)) { return false; }
-		return true;
-	}
+		if (!(obj instanceof IntArrayTag other)) { return false; }
+        return Arrays.equals(value, other.value);
+    }
 	
 }
